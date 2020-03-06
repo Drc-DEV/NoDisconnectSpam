@@ -1,0 +1,9 @@
+Settings:
+  cancel-kick-reasons:
+    - "disconnect.spam"
+    - "disconnect spam"
+  replace-message: "&cStop spamming!"
+  kill-spammer: false
+  hooks:
+    combatlogx:
+      kill-only-if-in-combat: true

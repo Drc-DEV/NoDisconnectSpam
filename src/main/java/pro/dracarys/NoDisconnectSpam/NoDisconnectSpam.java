@@ -27,6 +27,8 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+        saveDefaultConfig();
+        getConfig().options().header("# Reload Config -> /nds reload\n# (Permission: nds.reload)");
         PluginCommand cmd = this.getCommand("nds");
         MainCommand executor = new MainCommand();
         if (cmd != null) {

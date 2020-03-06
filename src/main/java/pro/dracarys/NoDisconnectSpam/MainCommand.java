@@ -19,7 +19,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             lista.add("nds");
             lista.add("nodisconnectspam");
         }
-        if (args.length == 1) {
+        if (args.length == 1 && sender.hasPermission("nds.reload")) {
             lista.addAll(StringUtil.copyPartialMatches(args[0], Collections.singletonList("reload"), new ArrayList<>()));
         }
         return lista;
@@ -28,7 +28,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             String arg1 = args[0];
-            if (arg1.equalsIgnoreCase("reload")) {
+            if (arg1.equalsIgnoreCase("reload") && sender.hasPermission("nds.reload")) {
                 NoDisconnectSpam.getInstance().reloadConfig();
                 sender.sendMessage(Util.color("&aConfig Reloaded!"));
             } else {

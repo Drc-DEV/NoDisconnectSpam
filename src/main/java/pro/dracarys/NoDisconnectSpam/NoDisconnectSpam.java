@@ -48,16 +48,16 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
         plugin = null;
     }
 
-    private Map<Player, Event> inKickProcessPlayers = new HashMap<>();
+    private Map<Player, Event> kickedPlayers = new HashMap<>();
 
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEarlyKick(PlayerKickEvent e) {
-        if (isDisconnectSpamKick(e)) {
-            inKickProcessPlayers.put(e.getPlayer(), e);
+        if (isDisconnectSpam(e)) {
+            kickedPlayers.put(e.getPlayer(), e);
             new BukkitRunnable() {
                 public void run() {
-                    inKickProcessPlayers.remove(e.getPlayer());
+                    kickedPlayers.remove(e.getPlayer());
                 }
             }.runTaskLaterAsynchronously(this, 200L);
         }
@@ -65,13 +65,13 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onKick(PlayerKickEvent e) {
-        final Player p = e.getPlayer();
-        boolean isDisconnectSpamKick = inKickProcessPlayers.containsKey(p);
-        inKickProcessPlayers.remove(p);
-        if (!isDisconnectSpamKick) {
-            isDisconnectSpamKick = isDisconnectSpamKick(e);
+        Player p = e.getPlayer();
+        boolean isDS = kickedPlayers.containsKey(p);
+        kickedPlayers.remove(p);
+        if (!isDS) {
+            isDS = isDisconnectSpam(e);
         }
-        if (isDisconnectSpamKick) {
+        if (isDS) {
             e.setCancelled(true);
             p.sendMessage(Util.color(getConfig().getString("Settings.replace-message")));
             if (getConfig().getBoolean("Settings.kill-spammer")) {
@@ -86,15 +86,15 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
     }
 
 
-    private boolean isDisconnectSpamKick(PlayerKickEvent e) {
-        boolean isDisconnectSpamKick = false;
+    private boolean isDisconnectSpam(PlayerKickEvent e) {
+        boolean isDS = false;
         for (String disabledKick : getConfig().getStringList("Settings.cancel-kick-reasons")) {
             if (disabledKick.toLowerCase().contains(e.getReason().toLowerCase())) {
-                isDisconnectSpamKick = true;
+                isDS = true;
                 break;
             }
         }
-        return isDisconnectSpamKick;
+        return isDS;
     }
 
     // Tell IntelliJ to not format this, by enabling formatter markers in comments (Pref-> Editor-> Code Style)
@@ -103,12 +103,12 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
     private void printPluginInfo() {
         Util.sendConsole(("\n"+
                 " ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜\n" +
-                " ⬜⬜⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜\n" +
-                " ⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬛⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜\n" +
-                " ⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬛⬜⬜⬜⬜\n" +
-                " ⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜⬛⬛⬜⬜\n" +
-                " ⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜\n" +
                 " ⬜⬜⬛⬜⬜⬛⬛⬜⬜⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜\n" +
+                " ⬜⬜⬛⬛⬜⬛⬜⬜⬜⬛⬜⬛⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜\n" +
+                " ⬜⬜⬛⬛⬛⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬛⬜⬜⬜⬜\n" +
+                " ⬜⬜⬛⬜⬛⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬜⬜⬛⬛⬜⬜\n" +
+                " ⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬜⬜⬛⬜⬜\n" +
+                " ⬜⬜⬛⬜⬜⬛⬜⬜⬜⬛⬛⬛⬜⬜⬜⬜⬛⬛⬛⬛⬜⬜\n" +
                 " ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜\n"
         ).replace("⬜","&0█").replace("⬛","&f█") + "\n" +
                 " &f-->  &c" + getDescription().getName() + " &7v" + getDescription().getVersion() + "&a Enabled" + "\n" +

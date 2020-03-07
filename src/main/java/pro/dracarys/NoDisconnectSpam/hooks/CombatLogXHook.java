@@ -1,10 +1,17 @@
 package pro.dracarys.NoDisconnectSpam.hooks;
 
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-public class CombatLogXHook {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class CombatLogXHook implements Listener {
 
     private static boolean isSetup = false;
 
@@ -23,6 +30,18 @@ public class CombatLogXHook {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static boolean wasInCombat(Player player) {
+        if (!lastCombatMap.containsKey(player.getUniqueId())) return false;
+        return (System.currentTimeMillis() - lastCombatMap.get(player.getUniqueId()) <= 10 * 1000L);
+    }
+
+    private static Map<UUID, Long> lastCombatMap = new HashMap<>();
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCombatEnd(PlayerUntagEvent e) {
+        lastCombatMap.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());
     }
 
 }

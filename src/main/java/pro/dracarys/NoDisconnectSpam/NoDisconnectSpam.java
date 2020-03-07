@@ -76,7 +76,7 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
             p.sendMessage(Util.color(getConfig().getString("Settings.replace-message")));
             if (getConfig().getBoolean("Settings.kill-spammer")) {
                 if (getConfig().getBoolean("Settings.hooks.combatlogx.kill-only-if-in-combat")) {
-                    if (CombatLogXHook.isInCombat(p))
+                    if (CombatLogXHook.wasInCombat(p))
                         p.damage(10000);
                 } else {
                     p.damage(10000);

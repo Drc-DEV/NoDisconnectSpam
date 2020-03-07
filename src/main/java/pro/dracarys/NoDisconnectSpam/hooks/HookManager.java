@@ -1,7 +1,6 @@
 package pro.dracarys.NoDisconnectSpam.hooks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 import pro.dracarys.NoDisconnectSpam.NoDisconnectSpam;
 import pro.dracarys.NoDisconnectSpam.Util;
 
@@ -34,6 +33,8 @@ public class HookManager {
 
             if (checkHook("CombatLogX")) {
                 CombatLogXHook.setup();
+                if (CombatLogXHook.isSetup())
+                    Bukkit.getPluginManager().registerEvents(new CombatLogXHook(), NoDisconnectSpam.getInstance());
             }
 
             if (!enabledHooks.isEmpty())

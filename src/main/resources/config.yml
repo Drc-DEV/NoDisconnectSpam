@@ -7,3 +7,4 @@ Settings:
   hooks:
     combatlogx:
       kill-only-if-in-combat: true
+      seconds-from-combat-start: 30

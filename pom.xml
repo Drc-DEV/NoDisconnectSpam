@@ -10,6 +10,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <description>Stop Disconnect.Spam kick!</description>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

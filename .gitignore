@@ -26,6 +26,7 @@
 /manifest.mf
 
 /world
+/lib
 
 # Mac filesystem dust
 /.DS_Store

@@ -33,6 +33,15 @@ public class CombatLogXHook implements Listener {
         }
     }
 
+    public static void forcePunish(Player player) {
+        if (!isSetup) return;
+        try {
+            CombatUtil.forcePunish(player);
+        } catch (Exception ignored) {
+            //Ignored
+        }
+    }
+
     public static boolean wasInCombat(Player player) {
         if (!lastCombatMap.containsKey(player.getUniqueId())) return false;
         return (System.currentTimeMillis() - lastCombatMap.get(player.getUniqueId()) <= NoDisconnectSpam.getInstance().getConfig().getInt("Settings.hooks.combatlogx.seconds-from-combat-start") * 1000L);

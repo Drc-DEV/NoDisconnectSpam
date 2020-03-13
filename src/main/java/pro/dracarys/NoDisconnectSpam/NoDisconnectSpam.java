@@ -68,16 +68,13 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
         Player p = e.getPlayer();
         boolean isDS = kickedPlayers.containsKey(p);
         kickedPlayers.remove(p);
-        if (!isDS) {
-            isDS = isDisconnectSpam(e);
-        }
+        if (!isDS) isDS = isDisconnectSpam(e);
         if (isDS) {
             e.setCancelled(true);
             p.sendMessage(Util.color(getConfig().getString("Settings.replace-message")));
             if (getConfig().getBoolean("Settings.kill-spammer")) {
                 if (getConfig().getBoolean("Settings.hooks.combatlogx.kill-only-if-in-combat")) {
-                    if (CombatLogXHook.wasInCombat(p))
-                        p.damage(10000);
+                    if (CombatLogXHook.wasInCombat(p)) CombatLogXHook.forcePunish(p);
                 } else {
                     p.damage(10000);
                 }
@@ -87,14 +84,10 @@ public class NoDisconnectSpam extends JavaPlugin implements Listener {
 
 
     private boolean isDisconnectSpam(PlayerKickEvent e) {
-        boolean isDS = false;
         for (String disabledKick : getConfig().getStringList("Settings.cancel-kick-reasons")) {
-            if (disabledKick.toLowerCase().contains(e.getReason().toLowerCase())) {
-                isDS = true;
-                break;
-            }
+            if (disabledKick.toLowerCase().contains(e.getReason().toLowerCase())) return true;
         }
-        return isDS;
+        return false;
     }
 
     // Tell IntelliJ to not format this, by enabling formatter markers in comments (Pref-> Editor-> Code Style)

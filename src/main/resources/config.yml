@@ -2,6 +2,7 @@ Settings:
   cancel-kick-reasons:
     - "disconnect.spam"
     - "disconnect spam"
+    - "Kicked for spamming"
   replace-message: "&cStop spamming!"
   kill-spammer: false
   hooks:

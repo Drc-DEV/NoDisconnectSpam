@@ -48,13 +48,7 @@ public class CombatLogXHook implements Listener {
     }
 
     private static Map<UUID, Long> lastCombatMap = new HashMap<>();
-
-    /*
-        @EventHandler(ignoreCancelled = true)
-        public void onCombatEnd(PlayerUntagEvent e) {
-            lastCombatMap.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());
-        }
-    */
+    
     @EventHandler(ignoreCancelled = true)
     public void onCombatStart(PlayerTagEvent e) {
         lastCombatMap.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());

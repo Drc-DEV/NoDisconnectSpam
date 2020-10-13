@@ -1,7 +1,9 @@
 package pro.dracarys.NoDisconnectSpam.hooks;
 
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +15,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CombatLogXHook implements Listener {
+
+    private static ICombatManager combatManager = ((ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX")).getCombatManager();
 
     private static boolean isSetup = false;
 
@@ -27,7 +31,7 @@ public class CombatLogXHook implements Listener {
     public static boolean isInCombat(Player player) {
         if (!isSetup) return false;
         try {
-            return CombatUtil.isInCombat(player);
+            return combatManager.isInCombat(player);
         } catch (Exception e) {
             return false;
         }
@@ -36,7 +40,7 @@ public class CombatLogXHook implements Listener {
     public static void forcePunish(Player player) {
         if (!isSetup) return;
         try {
-            CombatUtil.forcePunish(player);
+            combatManager.punish(player, PlayerUntagEvent.UntagReason.QUIT, combatManager.getEnemy(player));
         } catch (Exception ignored) {
             //Ignored
         }
@@ -48,7 +52,7 @@ public class CombatLogXHook implements Listener {
     }
 
     private static Map<UUID, Long> lastCombatMap = new HashMap<>();
-    
+
     @EventHandler(ignoreCancelled = true)
     public void onCombatStart(PlayerTagEvent e) {
         lastCombatMap.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());

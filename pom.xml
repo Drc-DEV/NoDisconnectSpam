@@ -7,10 +7,10 @@
     <groupId>pro.dracarys</groupId>
     <artifactId>NoDisconnectSpam</artifactId>
     <name>NoDisconnectSpam</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <description>Stop Disconnect.Spam kick!</description>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -29,7 +29,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -42,7 +42,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <phase>install</phase>
@@ -81,6 +81,10 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>nms-repo</id>
+            <url>https://repo.codemc.org/repository/nms/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -88,16 +92,15 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.16.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- CombatLogX 9.0.0.0 -->
+        <!-- CombatLogX -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-API</artifactId>
-            <version>9.0.0.0</version>
-            <systemPath>${project.basedir}/lib/CombatLogX_9.jar</systemPath>
-            <scope>system</scope>
+            <version>10.0.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

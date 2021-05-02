@@ -1,9 +1,9 @@
 package pro.dracarys.NoDisconnectSpam.hooks;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,7 +40,7 @@ public class CombatLogXHook implements Listener {
     public static void forcePunish(Player player) {
         if (!isSetup) return;
         try {
-            combatManager.punish(player, PlayerUntagEvent.UntagReason.QUIT, combatManager.getEnemy(player));
+            combatManager.punish(player, UntagReason.QUIT, combatManager.getEnemy(player));
         } catch (Exception ignored) {
             //Ignored
         }
